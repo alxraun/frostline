@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-engineering.xml -->
+<SS-REPOSITORY>
+  <Purpose>
+    Physical organization and cleanliness contract for FLI source, packages, integrations, tests, tooling, knowledge, and derived state.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Top-level responsibilities: `packages/`, `integrations/`, `tests/`, `scripts/`, `.frostline/`, repository metadata.</SCP-IN-001>
+    <SCP-IN-002>`packages/core`: harness-independent Core; `packages/skills`: canonical exported Agent Skill; `.agents/skills`: project-local skills.</SCP-IN-002>
+    <SCP-IN-003>`integrations/&lt;harness&gt;`: one isolated subtree per harness; `tests`: centralized verification hierarchy; `scripts`: repository-wide operations.</SCP-IN-003>
+    <SCP-OUT-001>Application source, arbitrary scripts, logs, reports, build outputs, snapshots, debug files at repository root.</SCP-OUT-001>
+    <SCP-OUT-002>Global catch-all directories; hidden unmanaged state; arbitrary persistent files under user home/config.</SCP-OUT-002>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>High cohesion: component-specific source, assets, native code, tooling, and fixtures stay with their owner.</PRIN-001>
+    <PRIN-002>Generated/transient output is not source; reproducibility inputs such as lockfiles are allowed in Git.</PRIN-002>
+    <PRIN-003>Repository-wide repeatable operations live in `scripts/`; component-specific ones stay component-local; one-off/debug scripts stay in a temporary workspace.</PRIN-003>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>Build, run, test, model, and intermediate outputs are forbidden in Git.</REQ-001>
+    <REQ-002>Reusable disposable state goes to the OS shared cache directory; ephemeral working state to the OS temporary directory; cache removal loses only acceleration/resume, never canonical truth.</REQ-002>
+    <REQ-003>Published knowledge files are canonical source, not generated garbage.</REQ-003>
+    <REQ-004>Component-specific non-TypeScript/native code is colocated with its owner.</REQ-004>
+    <REQ-005>Source layout and import paths are not FLI parent authority.</REQ-005>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `packages/core` + `packages/skills` + `integrations/codex` + `integrations/deepseek-harness` + `tests/` + `scripts/` + `.frostline/graph/`
+]]>
+  </Codemap>
+</SS-REPOSITORY>

@@ -1,0 +1,41 @@
+{
+  "description": "Frostline runtime context and lifecycle hooks.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PLUGIN_ROOT}/bin/frostline-codex",
+            "timeout": 30,
+            "statusMessage": "Resolving semantic ancestry",
+            "additionalContextLimit": 1000000
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PLUGIN_ROOT}/bin/frostline-codex",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PLUGIN_ROOT}/bin/frostline-codex",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

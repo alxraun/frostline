@@ -1,0 +1,7 @@
+/target/
+/packages/*/bin/
+/packages/workflows/node_modules/
+/integrations/codex/native/target/
+/integrations/deepseek-harness/lib/
+/packages/read-classifier/target/
+/dist/

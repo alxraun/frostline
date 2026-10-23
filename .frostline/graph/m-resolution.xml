@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-runtime.xml -->
+<M-RESOLUTION>
+  <Purpose>
+    Resolve child-owned literal `parents` selectors by nearest-upward filesystem lookup, and infer
+    the finite graph-discovery boundary for `graph` anchors.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Selector compilation and literal upward lookup through filesystem root.</SCP-IN-001>
+    <SCP-IN-002>Graph boundary inference from a file/directory anchor.</SCP-IN-002>
+    <SCP-OUT-001>Repository-wide search, glob expansion, project/workspace root concepts.</SCP-OUT-001>
+    <SCP-OUT-002>Downward discovery.</SCP-OUT-002>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>Selector form: `@` + literal relative path; `@` is mandatory.</REQ-001>
+    <REQ-002>Lookup: declaring-file directory -> ancestor directories -> filesystem root; the first candidate base where the literal target is a valid canonical regular file wins.</REQ-002>
+    <REQ-003>A literal selector resolves to exactly one canonical target or a diagnostic; a missing candidate at one level continues upward; no valid target through filesystem root is a diagnostic.</REQ-003>
+    <REQ-004>Glob/wildcard/brace/class/escape selector syntax is unsupported and diagnosed; absolute paths and `..` are forbidden.</REQ-004>
+    <REQ-005>`.git`, symlinks, and generated/derived paths are excluded target space; symlink traversal and canonical symlink targets are forbidden.</REQ-005>
+    <REQ-006>Resolution has no dependency on `.frostline`, `.git`, `HOME`, `cwd`, workspace, project, graph cache, or full scan; `cwd` is permitted only as lexical base for a relative CLI path.</REQ-006>
+    <REQ-007>Graph boundary inference: 1) explicit `--root` when supplied and containing the anchor; 2) nearest ancestor directory containing `.frostline/`; 3) nearest containing a Git root; 4) top-level child directory of `HOME` containing the anchor.</REQ-007>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>Selector raw text and declaring-file directory.</IN-001>
+      <IN-002>Graph anchor path and optional explicit root.</IN-002>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`ResolutionOutcome`: canonical target or diagnostic.</OUT-001>
+      <OUT-002>`graphBoundary`: one finite scan root or a requirement for explicit root.</OUT-002>
+    </Outputs>
+    <SideEffects>
+      <None />
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `Selector` -> `compileSelector` -> `CompiledSelector`
+* `selectorMatches` : `CompiledSelector.literal == relative`
+* `upwardLevels` -> `path.dirname` -> `filesystemRoot`
+* `CompiledSelector.literal` -> `validateRegularFile` -> `ResolutionOutcome`
+* `flRoot` + `gitRoot` + `homeChildRoot` -> `graphBoundary`
+* `GraphRequest.root` -> `graphBoundary`
+]]>
+  </Codemap>
+</M-RESOLUTION>

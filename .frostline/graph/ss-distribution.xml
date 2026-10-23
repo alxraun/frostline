@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-engineering.xml -->
+<SS-DISTRIBUTION>
+  <Purpose>Build and distribute standalone native Codex and DeepSeek Harness plugin bundles.</Purpose>
+  <Scope>
+    <SCP-IN-001>Linux x86_64; local checkout, development install, offline packages, manual release.</SCP-IN-001>
+    <SCP-IN-002>Repository scripts/ tasks; separate Core, adapters, classifier, canonical skills.</SCP-IN-002>
+    <SCP-OUT-001>No automatic project initialization, Git update, CI provider, or global semantic prompt.</SCP-OUT-001>
+  </Scope>
+  <Principles>
+    <PRIN-001>Bundling does not couple independent components.</PRIN-001>
+    <PRIN-002>Installed binaries have no development toolchain requirement.</PRIN-002>
+    <PRIN-003>DSH plugin bundle is the artifact; user profiles are not distribution units.</PRIN-003>
+  </Principles>
+  <Requirements>
+    <REQ-001>One native bundle per harness contains Core, adapter, and canonical skills.</REQ-001>
+    <REQ-002>Core can build independently of model frameworks and provider credentials.</REQ-002>
+    <REQ-003>Packages contain prebuilt components, exact skills, complete deterministic SHA256 manifests.</REQ-003>
+    <REQ-004>Offline package verification does not require network, dependency resolution, or model inference.</REQ-004>
+    <REQ-005>Codex development installation uses separate frostline-local marketplace; DSH development installation uses native bundle linking in an existing user profile.</REQ-005>
+    <REQ-006>Local installation never updates the Git checkout; no GitHub Actions or automatic publishing.</REQ-006>
+    <REQ-007>DSH compatibility is the exactly tested upstream revision declared in package peerDependencies, never an inferred broad range or fork compatibility.</REQ-007>
+    <REQ-008>Local release stages a Codex Git marketplace with binaries and DSH npm-compatible tarball; release does not publish.</REQ-008>
+  </Requirements>
+  <Codemap>
+<![CDATA[
+* scripts/build.sh -> Core + classifier + Codex adapter + DSH adapter
+* scripts/package.sh -> codex bundle + dsh bundle
+* scripts/verify.sh -> manifest.sha256
+* scripts/install-dev.sh -> native codex plugin + native dsh bundle
+* scripts/release.sh -> codex marketplace + dsh .tgz
+]]>
+  </Codemap>
+</SS-DISTRIBUTION>

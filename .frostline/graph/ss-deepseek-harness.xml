@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-integration.xml -->
+<SS-DEEPSEEK-HARNESS>
+  <Purpose>
+    Expose FLI Core and the canonical skill inside DeepSeek Harness (DSH) as a thin Cordis plugin with DSH-native observation, delivery, lifecycle, skills, and UX.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Physical owner: `integrations/deepseek-harness`.</SCP-IN-001>
+    <SCP-IN-002>Runtime observation surface: successful DSH native `read` results plus deterministic bash read classification through the shared `packages/read-classifier`, via the typed `tools/post-execute` boundary.</SCP-IN-002>
+    <SCP-IN-003>Skill registration through native `ctx.skills`; lifecycle identity/reset through reliable DSH Agent/session events.</SCP-IN-003>
+    <SCP-IN-004>Core transport: observed file path -> canonical `fli ancestors`.</SCP-IN-004>
+    <SCP-OUT-001>FLI declaration parsing, selector Resolution, graph-boundary inference, graph Discovery, DSH-owned FLI semantics.</SCP-OUT-001>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>Functional parity with other supported harnesses; DSH differences are transport, observation, and presentation only.</PRIN-001>
+    <PRIN-002>Observation priority: exact DSH native `read` fact first, deterministic shared-classifier bash reads second, unsupported or ambiguous observation never guessed; the DSH tool name `read` is not a FLI Core command.</PRIN-002>
+    <PRIN-003>Direct typed DSH extension points over compatibility-hook emulation.</PRIN-003>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>`grep`, `glob`, `pwsh`, search/snippet/editor tools are not FLI read events. A `bash` result becomes read observations only when the shared classifier (`packages/read-classifier`) deterministically reports read paths; classifier failures and pathless or ambiguous commands produce no observation and no guessing. A relative classified path without a reliable absolute agent cwd is safely skipped.</REQ-001>
+    <REQ-002>A successful native `read` becomes a FLI observation only after an unmodified accepted model-visible result exposes canonical `value.path`; failed/blocked/replaced/malformed reads or missing paths produce no observation and no guessing.</REQ-002>
+    <REQ-003>Reliable DSH `cwd` may resolve a relative transport path but never defines the FLI semantic boundary.</REQ-003>
+    <REQ-004>Missing reliable Agent/session identity produces no delivery guess and a visible diagnostic.</REQ-004>
+    <REQ-005>Core observation failure cannot replace or reject the original DSH tool result.</REQ-005>
+    <REQ-006>Startup|clear resets session; resume preserves; durable `compaction/end` resets context; lifecycle events contribute no FLI semantic system prompt.</REQ-006>
+    <REQ-007>The canonical FLI skill (`frostline-graph`) is registered through `ctx.skills`; its frontmatter description remains routing authority. Project-local skills (`.agents/skills/`) are not bundle surface.</REQ-007>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `apply` -> `applyWithRunner` -> `createCoreRunner`
+* `applyWithRunner` -> `DshContext.skills.register`
+* `applyWithRunner` -> `DshContext.on("agent/session-start")` -> `CoreRunner.resetSession`
+* `applyWithRunner` -> `DshContext.on("session/event")` -> `CoreRunner.resetContext`
+* `applyWithRunner` -> `DshContext.on("tools/post-execute")` -> `observedReadPath` | `observedBashCommand` -> `bashReadFiles` -> `CoreRunner.ancestors`
+* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS`
+* `testedDeepSeekHarnessVersion`
+]]>
+  </Codemap>
+</SS-DEEPSEEK-HARNESS>

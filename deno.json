@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "build": "bash scripts/build.sh",
+    "check": "bash scripts/check.sh",
+    "test": "bash scripts/test.sh",
+    "package": "bash scripts/package.sh",
+    "release": "bash scripts/release.sh",
+    "install:dev": "bash scripts/install-dev.sh"
+  }
+}

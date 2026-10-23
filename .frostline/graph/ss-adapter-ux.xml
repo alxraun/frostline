@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-integration.xml -->
+<SS-ADAPTER-UX>
+  <Purpose>
+    Shared user-visible status and diagnostic policy for FLI context delivery across harnesses.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Common event meaning, message content, path identity, default/strict diagnostic policy.</SCP-IN-001>
+    <SCP-IN-002>Harness-specific presentation through native user-visible surfaces.</SCP-IN-002>
+    <SCP-OUT-001>Core graph semantics and read classification.</SCP-OUT-001>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>Notices describe documents newly delivered to the current context; one read event yields at most one delivery notice.</PRIN-001>
+    <PRIN-002>Core owns declaration parsing, resolution, and diagnostic facts; integrations own presentation only.</PRIN-002>
+    <PRIN-003>The same event and mode produce equivalent messages in every supported integration.</PRIN-003>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>Both modes show delivery notices and operational failures while preserving the original read result.</REQ-001>
+    <REQ-002>Mode selection: `FLI_DIAGNOSTICS` from the host process environment; unset or `default` selects default; `strict` selects strict; an unsupported value produces one visible configuration notice per session and uses default while delivery continues; values are case-sensitive; a mode change takes effect at harness startup.</REQ-002>
+    <REQ-003>A read with an empty result or only previously delivered ancestors produces no per-read notice.</REQ-003>
+    <REQ-004>Strict mode additionally shows declaration and selector diagnostics; valid independent branches still deliver context; semantics and read classification are unchanged.</REQ-004>
+    <REQ-005>Delivery notices list newly delivered documents in Core order using structured identities and project-relative paths, qualifying the project when equal relative paths from different projects occur in one notice.</REQ-005>
+    <REQ-006>Show up to three names inline; beyond that include the total and the number omitted; a full untruncated list remains inspectable through an explicit status/diagnostic surface when one exists.</REQ-006>
+    <REQ-007>Diagnostic notices identify the observed file and the selector when available; message content is canonical (e.g. `FLI: context added — docs/a.md`, `FLI: context unavailable — ...`), rendered in each harness's native notice surface.</REQ-007>
+    <REQ-008>Model delivery and notice visibility are verified in each real harness.</REQ-008>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `default` | `strict`
+* `createUxMode` -> `outputNotices` -> `systemMessage` | `additionalContexts`
+]]>
+  </Codemap>
+</SS-ADAPTER-UX>

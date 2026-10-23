@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-integration.xml -->
+<M-READ-CLASSIFIER>
+  <Purpose>
+    Provide one deterministic shell read classifier, shared by every harness adapter, so all integrations observe the same read facts from shell tool calls.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Parsing shell scripts into best-effort read file paths via the pinned upstream Codex shell-command classifier.</SCP-IN-001>
+    <SCP-IN-002>A stdin/stdout JSON transport executable for non-Rust adapters.</SCP-IN-002>
+    <SCP-OUT-001>Path resolution against a working directory; model-visibility, installation-subtree, or deduplication policy beyond order preservation.</SCP-OUT-001>
+    <SCP-OUT-002>Core invocation, ancestor resolution, or FLI semantics of any kind.</SCP-OUT-002>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>`classify_reads(script)` returns the upstream classifier's `Read` paths deduplicated in first-seen order; non-read or ambiguous commands yield no paths.</REQ-001>
+    <REQ-002>The classifier returns paths verbatim from parsing; relative paths stay relative and are resolved by the calling adapter against its own reliable command cwd.</REQ-002>
+    <REQ-003>The transport executable reads `{"commands": [...]}` and writes `{"reads": [...]}`; malformed input or failed execution is a nonzero exit with a stderr diagnostic, never a guessed empty success.</REQ-003>
+    <REQ-004>The upstream classifier dependency is pinned to the same revision across all consumers; builds are lockfile-pinned and offline-reproducible.</REQ-004>
+    <REQ-005>One classification implementation: adapters classify shell reads only through this package, never through local forks of the upstream classifier.</REQ-005>
+    <REQ-006>The classifier returns exactly what the pinned upstream classifier reports and never invents or filters read facts.</REQ-006>
+    <REQ-007>The package knows no harness, hook surface, or session concept.</REQ-007>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>Library: one shell script string.</IN-001>
+      <IN-002>Transport: JSON object `{"commands": [string]}` on stdin.</IN-002>
+    </Inputs>
+    <Outputs>
+      <OUT-001>Library: read path strings deduplicated in first-seen order.</OUT-001>
+      <OUT-002>Transport: JSON object `{"reads": [string]}` on stdout.</OUT-002>
+    </Outputs>
+    <SideEffects>
+      <None />
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `classify_reads` -> `codex_shell_command.parse_shell_script` -> `ParsedCommand::Read.path`
+* `ParsedCommand::ListFiles | Search | Unknown` => `skip`
+* `fli-classify-reads.stdin.commands` -> `classify_reads` -> `fli-classify-reads.stdout.reads`
+* `integrations/codex/native` : `read-classifier`
+* `integrations/deepseek-harness` -> `bin/fli-classify-reads`
+]]>
+  </Codemap>
+</M-READ-CLASSIFIER>

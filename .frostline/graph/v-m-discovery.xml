@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-discovery.xml -->
+<V-M-DISCOVERY>
+  <Command>deno test --allow-all tests/core/state.test.ts tests/core/state-corruption.test.ts tests/core/cache-location.test.ts tests/core/discovery-failure.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/m-discovery.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-DISCOVERY.REQ-001">graph scans exactly one fixed boundary tree; ancestors performs no scan.</SCN-001>
+    <SCN-002 target="M-DISCOVERY.REQ-002">an external parent is followed upward only; its surrounding directories are never full-scanned.</SCN-002>
+    <SCN-003 target="M-DISCOVERY.REQ-005">a changed fingerprint invalidates cached declaration sources; cache removal rebuilds cleanly.</SCN-003>
+    <SCN-004 target="M-DISCOVERY.REQ-006">traversal/metadata/read failure yields an explicit diagnostic, never silent absence.</SCN-004>
+  </Scenarios>
+</V-M-DISCOVERY>

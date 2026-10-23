@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-core.xml -->
+<SS-KNOWLEDGE>
+  <Purpose>
+    Define the FLI knowledge model: architectural contract nodes, tier decomposition, statement ownership, and verification linkage.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Tier model P/S/SS/M and Verification plane V.</SCP-IN-001>
+    <SCP-IN-002>Node identity, canonical `.frostline/graph/` catalog layout, role-to-parent mapping.</SCP-IN-002>
+    <SCP-IN-003>Statement ownership and inheritance-without-duplication rules.</SCP-IN-003>
+    <SCP-OUT-001>Runtime graph mechanics (owned by SS-RUNTIME).</SCP-OUT-001>
+    <SCP-OUT-002>Authoring procedure guidance (owned by the frostline-graph skill; project-local authoring skills live in `.agents/skills/`).</SCP-OUT-002>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>Every graph node is exactly one XML file; the root tag equals the node's unique identifier.</PRIN-001>
+    <PRIN-002>Tiers are fixed and typed: Project, System, Subsystem, Module, Verification; no emergent ontology levels.</PRIN-002>
+    <PRIN-003>Hierarchy direction: M -> SS -> S -> P; the verification plane mirrors architecture (V-M/V-SS/V-S/V-P).</PRIN-003>
+    <PRIN-004>Implementation source layout, imports, calls, and dependencies are evidence and navigation, never parent authority.</PRIN-004>
+    <PRIN-005>Multiple parents only when the child genuinely belongs to multiple superior nodes.</PRIN-005>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>Role mapping: implementation source (`src/`) parents point at `M-*`; test suites (`tests/`) parents point at `V-*`; verification nodes parent their verified target node; architectural nodes parent their superior node.</REQ-001>
+    <REQ-002>Tier field matrix is authoritative: Project = Purpose, Scope, Principles, Technology, Codemap; System/Subsystem = Purpose, Scope, Principles, Requirements, Codemap; Module = Purpose, Scope, Requirements, Contract, Codemap; Verification = Command, TestFiles, Scenarios.</REQ-002>
+    <REQ-003>`&lt;Technology&gt;` is Project-tier only; `&lt;Contract&gt;` is Module-tier only.</REQ-003>
+    <REQ-004>Verification nodes parent exactly one verified architectural node of the matching tier and never another verification node.</REQ-004>
+    <REQ-005>One statement carries one proposition, anchored at the highest applicable abstraction level; duplicate propositions across nodes or fields are forbidden.</REQ-005>
+    <REQ-006>Every `&lt;SCN-NNN&gt;` carries a mandatory `target` attribute referencing a tested statement FQID; multiple scenarios may target one statement.</REQ-006>
+    <REQ-007>Codemap is a symbolic projection only: code identifiers and relation operators, no natural-language prose; a parent's Codemap covers boundaries, interfaces, and inter-relations of all child siblings at its resolution level.</REQ-007>
+    <REQ-008>Codemap authority is current source; key implementation symbols or architectural relations changed -> Codemap updated; file move/internal refactor with unchanged key symbols leaves Codemap unchanged.</REQ-008>
+    <REQ-009>Contract conflicts with implementation: the contract wins unless intent is explicitly changed; material intent ambiguity is surfaced, never derived from implementation alone.</REQ-009>
+    <REQ-010>`.frostline/graph/` (default, configurable) is the canonical catalog layout: architectural nodes (P/S/SS/M) and verification nodes (V-*) live side by side under `graph/`; the layout is convention, not semantic authority; membership is graph/declarations, not path location.</REQ-010>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `M-PAYMENT-SERVICE` == `m-payment-service.xml`
+* `.frostline/graph/*.xml` -> `validateKnowledge` -> `KnowledgeValidation`
+* `roleMapping` : `src/` -> `M-*` + `tests/` -> `V-*`
+* `packages/skills/frostline-graph/SKILL.md` -> `tierFields` + `statementPrefixes` + `isFqid`
+]]>
+  </Codemap>
+</SS-KNOWLEDGE>

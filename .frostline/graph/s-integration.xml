@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/p-frostline.xml -->
+<S-INTEGRATION>
+  <Purpose>
+    Deliver FLI inside each harness through thin adapters that translate reliable harness file/lifecycle facts into Core calls and native surfaces.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Physical root: `integrations/&lt;harness&gt;`; one isolated subtree per harness.</SCP-IN-001>
+    <SCP-IN-002>Core transport: observed file path -> bundled `fli ancestors`/Core API -> native context/diagnostics.</SCP-IN-002>
+    <SCP-IN-003>Graph clients: file or directory anchor -> `fli graph FILE|DIR` with Core-owned boundary inference.</SCP-IN-003>
+    <SCP-IN-004>Agent skill transport: bundled canonical FLI skill (frostline-graph) -> native harness skill catalog.</SCP-IN-004>
+    <SCP-IN-005>Lifecycle: reliable session/context identity -> Delivery reset/preserve.</SCP-IN-005>
+    <SCP-IN-006>Shared shell read classification: `packages/read-classifier`, one deterministic classifier consumed by every adapter.</SCP-IN-006>
+    <SCP-OUT-001>Integration-owned declaration parsing, selector Resolution, root detection, graph Discovery, semantic inference.</SCP-OUT-001>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>The adapter owns observation, transport, lifecycle, presentation only.</PRIN-001>
+    <PRIN-002>Exact native file-read fact over deterministic classifier over unsupported/ambiguous observation.</PRIN-002>
+    <PRIN-003>Internal harness/package/filesystem reads are never model-visible FLI read events.</PRIN-003>
+    <PRIN-004>Supported harnesses expose the same Core semantics; UX message meaning follows SS-ADAPTER-UX.</PRIN-004>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>A successful observed file read — exact native fact or shared-classifier shell read — triggers Core `ancestors` for that file; there is no `fli read` compatibility command.</REQ-001>
+    <REQ-002>The integration must not inspect `.frostline`, `.git`, `HOME`, or filesystem ancestry to choose a semantic root, and must not parse `parents`/`children`.</REQ-002>
+    <REQ-003>Graph viewers provide an existing anchor and consume `GraphOutput.root/focus/nodes/edges/diagnostics`; a directory anchor produces no focus; root always comes from Core; explicit root override is a user/client action only.</REQ-003>
+    <REQ-004>Non-empty newly delivered context produces a model-facing injection; empty or already-delivered context produces no repetitive success noise.</REQ-004>
+    <REQ-005>FLI operational failure, state warning, or integration failure produces an explicit native diagnostic.</REQ-005>
+    <REQ-006>DeliveryScope derives only from reliable lifecycle identity; a missing capability is an explicit limitation, not alternate semantics.</REQ-006>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `observedRead` -> `AncestorsRequest` -> `Frostline.ancestors` -> `AncestorsOutput`
+* `graphAnchor` -> `GraphRequest` -> `Frostline.graph` -> `GraphOutput`
+* `HookInput` -> `dispatch` -> `HookOutput` : `codex`
+* `applyWithRunner` -> `DshContext` : `deepseek-harness`
+* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `UxMode`
+* `packages/skills/frostline-graph` -> `skillCatalog`
+* `read_classifier::classify_reads` + `fli-classify-reads` -> `observedRead` : `packages/read-classifier`
+]]>
+  </Codemap>
+</S-INTEGRATION>

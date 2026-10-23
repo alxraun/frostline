@@ -1,0 +1,5 @@
+# parents: @.frostline/graph/ss-deepseek-harness.xml
+
+- insert:
+    - id: frostline
+      name: '@frostline/dsh'

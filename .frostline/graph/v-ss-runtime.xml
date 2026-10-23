@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-runtime.xml -->
+<V-SS-RUNTIME>
+  <Command>deno test --allow-all tests/core/metamorphic.test.ts tests/core/properties.test.ts tests/core/multi-project-order.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/ss-runtime.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="SS-RUNTIME.REQ-001">ancestors never triggers a full project scan regardless of graph shape.</SCN-001>
+    <SCN-002 target="SS-RUNTIME.REQ-011">an invalid or cyclic branch is isolated while independent valid branches still deliver context.</SCN-002>
+    <SCN-003 target="SS-RUNTIME.REQ-009">one delivery scope traverses files from unrelated graph scopes without path collision.</SCN-003>
+  </Scenarios>
+</V-SS-RUNTIME>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-runtime.xml -->
+<M-DISCOVERY>
+  <Purpose>
+    Traverse ancestors directly from concrete files and perform one bounded full-graph scan from a fixed region.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Ancestor-only traversal: anchor -> declaration -> resolved literal parents -> repeat.</SCP-IN-001>
+    <SCP-IN-002>Full downward scan of the directory tree rooted at `graphBoundary(anchor)`.</SCP-IN-002>
+    <SCP-IN-003>Disposable declaration cache as acceleration for repeated full scans.</SCP-IN-003>
+    <SCP-OUT-001>Full scan of directories around external ancestors.</SCP-OUT-001>
+    <SCP-OUT-002>Authoritative manifest, registry, watcher, daemon, persistent index.</SCP-OUT-002>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>`ancestors` never calls `ProjectIndex.scan`; `graph` scans exactly one inferred/explicit boundary tree fixed before the scan begins.</REQ-001>
+    <REQ-002>External ancestors (resolved parents outside the region) are inspected directly and recursively for their own `parents`; their surrounding directories are never full-scanned.</REQ-002>
+    <REQ-003>The full scan skips `.git`, generated dependency/build/cache directories, and FLI derived cache paths.</REQ-003>
+    <REQ-004>A scanned file is not automatically a graph node; participation is a valid declaration holder or a resolved parent target.</REQ-004>
+    <REQ-005>A cached declaration source is reused only while its filesystem fingerprint is unchanged and the cached read succeeded; new/changed/previously unreadable files are read fresh.</REQ-005>
+    <REQ-006>Traversal, metadata, or read failure produces an explicit diagnostic; failure cannot prove absence.</REQ-006>
+    <REQ-007>Cache load/corruption/persist/lock failure cannot change graph truth; Core derived-state concurrency failure fails open.</REQ-007>
+    <REQ-008>Filesystem traversal is canonical; no ripgrep dependency is part of Core correctness.</REQ-008>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>Ancestor anchor: existing regular file path.</IN-001>
+      <IN-002>Graph anchor: existing file or directory path.</IN-002>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`AncestryGraph` edges from direct reads.</OUT-001>
+      <OUT-002>Scan seeds for `ProjectIndex.participationGraph`.</OUT-002>
+    </Outputs>
+    <SideEffects>
+      <EFF-001>Reads and persists disposable `ProjectCache` under `defaultCacheDirectory`.</EFF-001>
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `discoverAncestors` -> `readLeadingArea` + `parse` + `compileSelector` -> `AncestryGraph.addEdge`
+* `ProjectIndex.scan` -> `visitDirectory` + `ProjectCache.fingerprint`
+* `ProjectIndex.participationGraph` -> `seeds` + `expandAncestors`
+* `externalParent` -> `inspectFile` -> `resolveLiteralParent` -> `discoverAncestors`
+* `CoreState` -> `ProjectCache` via `withStateLock`
+]]>
+  </Codemap>
+</M-DISCOVERY>

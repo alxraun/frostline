@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-integration.xml -->
+<SS-CODEX>
+  <Purpose>
+    Expose FLI Core and the canonical skill inside OpenAI Codex through its native hooks, lifecycle, and context surfaces.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Physical owner: `integrations/codex`; synchronous successful Bash `PostToolUse` read trigger.</SCP-IN-001>
+    <SCP-IN-002>Context delivery via native `additionalContext`; diagnostics via `systemMessage`; lifecycle via SessionStart + PostCompact.</SCP-IN-002>
+    <SCP-IN-003>Skill delivery: plugin `skills/` catalog from canonical `packages/skills`.</SCP-IN-003>
+    <SCP-OUT-001>FLI declaration parsing, selector Resolution, graph-boundary inference, ontology semantics.</SCP-OUT-001>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>The adapter remains thin regardless of implementation language.</PRIN-001>
+    <PRIN-002>Shell read classification is a local Rust/native exception because the authoritative upstream implementation is Rust; classification is consumed from the shared `packages/read-classifier` and owns read classification only.</PRIN-002>
+    <PRIN-003>Canonical skill remains harness-independent; Codex receives package-time exact copies.</PRIN-003>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>Only classifier-confirmed reliable reads become Core file observations; reads inside the plugin's own installation subtree are internal and never FLI events.</REQ-001>
+    <REQ-002>Pinned wire contract: shell `PostToolUse` `tool_input` is exactly `{"command": "..."}` and hook input carries the session `cwd`; a relative read resolves against that cwd — no suffix/unique-candidate heuristics; absolute reads pass through unchanged.</REQ-002>
+    <REQ-003>DeliveryScope == `session_id + (agent_id | __main__)`; `PostCompact` resets matching context; SessionStart startup|clear resets session, resume preserves, compact resets main context.</REQ-003>
+    <REQ-004>SessionStart performs reset/preserve plus a concise FLI-active status only; no FLI semantic `additionalContext`; FLI guidance routes through the native skill catalog.</REQ-004>
+    <REQ-005>Core subprocess exceeding the adapter's bounded budget is terminated with a user-visible internal diagnostic before the harness hook deadline.</REQ-005>
+    <REQ-006>Installation triggers no automatic Initialization and no Audit schedule; the package is self-contained for the supported runtime.</REQ-006>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `main` -> `dispatch` -> `HookOutput`
+* `dispatch` -> `session_start` | `post_tool_use` | `post_compact`
+* `post_tool_use` -> `read_classifier::classify_reads` -> `run_core` -> `fli ancestors`
+* `is_inside_own_installation` == `true` => `skip`
+* `packages/skills/frostline-graph` -> `skills/`
+]]>
+  </Codemap>
+</SS-CODEX>

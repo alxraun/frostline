@@ -1,0 +1,13 @@
+{
+  "name": "@frostline/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "fli": "bin/fli"
+  },
+  "scripts": {
+    "build": "deno task build",
+    "test": "deno task test"
+  }
+}

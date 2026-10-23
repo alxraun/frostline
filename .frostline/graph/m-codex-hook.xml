@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-codex.xml -->
+<M-CODEX-HOOK>
+  <Purpose>
+    Implement the Codex adapter dispatch: read classification transport, notices, and lifecycle resets.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Hook events: session_start, post_tool_use, post_compact.</SCP-IN-001>
+    <SCP-OUT-001>Graph, knowledge schema, Resolution, root detection, cache, ontology implementation.</SCP-OUT-001>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>`post_tool_use` maps shared-classifier read paths (`read_classifier::classify_reads`) to the bundled Core ancestor-context transport; relative reads resolve against the hook input `cwd` (`resolve_read`).</REQ-001>
+    <REQ-002>`post_tool_use` resolves the diagnostics mode and emits delivery and diagnostics messages through `systemMessage`.</REQ-002>
+    <REQ-003>`session_start` resolves the diagnostics mode and resets session state; `context_id` == `session_id + agent_id`; `post_compact` resets context.</REQ-003>
+    <REQ-004>The hook receives `FLI_DIAGNOSTICS` from the Codex process environment.</REQ-004>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>`HookInput` JSON on stdin: event name, session identity, tool input.</IN-001>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`HookOutput`: additionalContext, systemMessage, exit status.</OUT-001>
+    </Outputs>
+    <SideEffects>
+      <EFF-001>Updates bundled Core delivery state for the session context.</EFF-001>
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `main` -> `dispatch` -> `HookOutput`
+* `post_tool_use` -> `read_classifier::classify_reads` + `resolve_read` -> `run_core`
+* `post_tool_use` -> `resolve_diagnostics_mode` + `delivery_message` + `diagnostics_message` -> `systemMessage`
+* `session_start` -> `resolve_diagnostics_mode` + `reset_session`
+* `post_compact` -> `reset_context`
+* `run_core` -> `core_binary` + `core_timeout` -> `parse_core_output`
+]]>
+  </Codemap>
+</M-CODEX-HOOK>

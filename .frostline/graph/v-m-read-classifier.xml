@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-read-classifier.xml -->
+<V-M-READ-CLASSIFIER>
+  <Command>cargo test --manifest-path packages/read-classifier/Cargo.toml --locked --offline</Command>
+
+  <TestFiles>
+    <File>packages/read-classifier/tests/classifier.rs</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-READ-CLASSIFIER.REQ-001">read commands classify to their paths; non-read and empty scripts classify to nothing.</SCN-001>
+    <SCN-002 target="M-READ-CLASSIFIER.REQ-001">duplicate reads deduplicate in first-seen order.</SCN-002>
+  </Scenarios>
+</V-M-READ-CLASSIFIER>

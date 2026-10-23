@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-knowledge.xml -->
+<M-KNOWLEDGE-SCHEMA>
+  <Purpose>
+    Mechanically validate FLI knowledge nodes: tier matrix conformance, statement grammar, numbering, and FQID addressing.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Validation of XML node content against the tier/statement schema.</SCP-IN-001>
+    <SCP-OUT-001>Graph semantics, delivery, harness behavior.</SCP-OUT-001>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>Root tag must match the node ID pattern of a known tier (`P-*`, `S-*`, `SS-*`, `M-*`, `V-*`).</REQ-001>
+    <REQ-002>Container fields must be within the tier's allowed field set; unknown fields are diagnosed.</REQ-002>
+    <REQ-003>Statement prefixes are closed: SCP-IN, SCP-OUT, PRIN, TECH, REQ, IN, OUT, EFF, SCN; unregistered prefixes are diagnosed.</REQ-003>
+    <REQ-004>Statement numbers are three-digit and incremental within their container; `Purpose` is direct text; absent side effects use `&lt;SideEffects&gt;&lt;None /&gt;&lt;/SideEffects&gt;`.</REQ-004>
+    <REQ-005>Every scenario's `target` attribute must resolve to a valid FQID form `NODE-ID.STATEMENT-ID`.</REQ-005>
+    <REQ-006>Codemap must be wrapped in CDATA; content is restricted to identifiers and relation operators.</REQ-006>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>Knowledge file content as strict UTF-8 text.</IN-001>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`KnowledgeValidation` with valid flag and error list.</OUT-001>
+    </Outputs>
+    <SideEffects>
+      <None />
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `validateKnowledge` -> `KnowledgeValidation`
+* `tierOf` -> `tierFields`
+* `statementPrefixes` + `NNN` -> `diagnostics`
+* `isFqid` : `NODE-ID` + `.` + `STATEMENT-ID`
+]]>
+  </Codemap>
+</M-KNOWLEDGE-SCHEMA>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-graph.xml -->
+<V-M-GRAPH>
+  <Command>deno test --allow-all tests/core/graph.test.ts tests/core/graph-scale.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/m-graph.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-GRAPH.REQ-001">a cycle produces a diagnostic and the cyclic branch is excluded from ancestor context.</SCN-001>
+    <SCN-002 target="M-GRAPH.REQ-003">an anchor without a declaration does not participate; a directory anchor yields no focus.</SCN-002>
+    <SCN-003 target="M-GRAPH.REQ-005">GraphOutput exposes root, focus, nodes, edges, diagnostics with external nodes using absolute identities.</SCN-003>
+  </Scenarios>
+</V-M-GRAPH>

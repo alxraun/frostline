@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-core.xml -->
+<SS-RUNTIME>
+  <Purpose>
+    Expose local ancestor context and bounded full-graph discovery as one deterministic pipeline.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Operation `ancestors`: transitive semantic parents of actually read files.</SCP-IN-001>
+    <SCP-IN-002>Operation `graph`: one inferred/explicit finite boundary, one full scan, external ancestor-only continuation.</SCP-IN-002>
+    <SCP-IN-003>Delivery: scope-keyed context injection with reset semantics.</SCP-IN-003>
+    <SCP-OUT-001>Downward discovery inside `ancestors`.</SCP-OUT-001>
+    <SCP-OUT-002>Widening of the full-discovery region because a parent resolves outside it.</SCP-OUT-002>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>Authority: filesystem plus child-owned `parents` declarations; derived state is acceleration/history only.</PRIN-001>
+    <PRIN-002>`cwd` may resolve relative CLI paths but is never semantic boundary authority.</PRIN-002>
+    <PRIN-003>One process/session may operate on unrelated files/scopes without a session-global project root.</PRIN-003>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>`ancestors` requires an existing regular FILE; it never calls `ProjectIndex.scan`; cost depends only on traversed ancestry and literal-lookup depth.</REQ-001>
+    <REQ-002>`graph` accepts an existing file or directory anchor; a directory anchor selects scope and produces no `focus`.</REQ-002>
+    <REQ-003>Graph boundary priority: explicit `--root` override -> nearest ancestor containing `.frostline/` -> nearest containing `.git/` -> top-level child of `HOME` containing the anchor; if no safe boundary is inferable, an explicit root is required.</REQ-003>
+    <REQ-004>`HOME` itself is never inferred as a full-scan root.</REQ-004>
+    <REQ-005>Graph anchor/focus never creates graph participation.</REQ-005>
+    <REQ-006>A file with no declaration is a valid `ancestors` no-op; a file with no declaration and no incoming resolved reference is not a graph node.</REQ-006>
+    <REQ-007>Graph-derived children are an inverse view only, never declaration authority.</REQ-007>
+    <REQ-008>Discovery/cache state missing or corrupt -> filesystem-derived rebuild; delivery state missing or corrupt -> safe reinjection; required documents cannot be suppressed.</REQ-008>
+    <REQ-009>DeliveryScope identifiers are opaque and may span files from unrelated graph scopes.</REQ-009>
+    <REQ-010>Hidden model context is never heuristically reconstructed.</REQ-010>
+    <REQ-011>An invalid or cyclic branch never destroys independent valid branches.</REQ-011>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `Frostline.ancestors` -> `Engine.process` -> `discoverAncestors` -> `AncestryGraph.orderedAncestors` -> `AncestorsOutput`
+* `GraphRequest.anchor` -> `Engine.graph` -> `graphBoundary` -> `ProjectIndex.scan` -> `GraphOutput`
+* `Frostline.resetContext` + `Frostline.resetSession` -> `DeliveryStore`
+* `defaultCacheDirectory` -> `Engine` + `DeliveryStore`
+]]>
+  </Codemap>
+</SS-RUNTIME>

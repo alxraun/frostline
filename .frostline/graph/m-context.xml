@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-runtime.xml -->
+<M-CONTEXT>
+  <Purpose>
+    Turn semantic ancestors of actual reads into one ordered agent-facing context document and deliver it per scope.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Ordered ancestry from narrow implementation toward broader architectural meaning.</SCP-IN-001>
+    <SCP-IN-002>Delivery: scope-keyed cross-event suppression and reset operations.</SCP-IN-002>
+    <SCP-OUT-001>Speculative relevance, task invention, replacement of the read file.</SCP-OUT-001>
+    <SCP-OUT-002>Cross-event/session dedup outside Delivery; hidden-context reconstruction.</SCP-OUT-002>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>Only resolved semantic ancestors are injected; actual-read files are excluded from injected ancestors.</REQ-001>
+    <REQ-002>Multi-read produces the union of ancestors, deduplicated, ancestor-first; a canonical ancestor appears at most once per read group per project-qualified identity.</REQ-002>
+    <REQ-003>Ancestor content is strict UTF-8: an invalid byte sequence is a diagnostic plus branch exclusion, never replacement-character corruption; valid UTF-8 including BOM is preserved; a CDATA terminator is split safely without semantic loss.</REQ-003>
+    <REQ-004>Relevant processing uses current source content; derived state cannot supply stale canonical content.</REQ-004>
+    <REQ-005>Absolute filesystem paths are never exposed; document identity is the project-qualified path with a project discriminator for equal project-relative paths across projects.</REQ-005>
+    <REQ-006>The envelope is `&lt;frostline-context&gt;` with project-relative path-derived kebab-case entries; a normalization collision adds an identity suffix; each closing tag identifies its document.</REQ-006>
+    <REQ-007>There is no FLI semantic budget or silent context pruning.</REQ-007>
+    <REQ-008>Delivery dedup requires a reliable opaque `DeliveryScope`; reset context/session clears suppression without touching semantic truth.</REQ-008>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>Observed read paths within a read group.</IN-001>
+      <IN-002>Delivery scope identifier and reset operations.</IN-002>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`ContextDocument[]` and rendered context string for non-empty newly delivered sets.</OUT-001>
+      <OUT-002>No output for empty or already-delivered context.</OUT-002>
+    </Outputs>
+    <SideEffects>
+      <EFF-001>Persists disposable delivery state under `defaultCacheDirectory`.</EFF-001>
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `ContextDocument` -> `path` + `identity` + `project` + `content`
+* `projectQualifiedIdentity(root, value)` -> `ContextDocument.identity`
+* `projectDiscriminator(root)` -> `ContextDocument.project`
+* `Engine.process` -> strict UTF-8 `ContextDocument`
+* `renderContext(ContextDocument[])` -> `string`
+* `DeliveryScope` -> `DeliveryStore.filter`
+]]>
+  </Codemap>
+</M-CONTEXT>

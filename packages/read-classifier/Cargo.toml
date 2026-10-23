@@ -1,0 +1,25 @@
+# parents: @.frostline/graph/m-read-classifier.xml
+
+[package]
+name = "frostline-read-classifier"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Deterministic shell read classifier shared by Frostline harness adapters"
+
+[lib]
+name = "read_classifier"
+path = "src/lib.rs"
+
+[[bin]]
+name = "fli-classify-reads"
+path = "src/main.rs"
+
+[dependencies]
+codex-protocol = { git = "https://github.com/openai/codex.git", rev = "316795b3cf2a45e90d121d9f46499d4658b2645c" }
+codex-shell-command = { git = "https://github.com/openai/codex.git", rev = "316795b3cf2a45e90d121d9f46499d4658b2645c" }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+rama-error = "=0.3.0-alpha.4"
+rama-macros = "=0.3.0-alpha.4"
+rama-utils = "=0.3.0-alpha.4"

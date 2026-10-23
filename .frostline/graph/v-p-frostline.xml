@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/p-frostline.xml -->
+<V-P-FROSTLINE>
+  <Command>deno test --allow-all tests/e2e tests/release</Command>
+
+  <TestFiles>
+    <File>tests/e2e/p-frostline.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="P-FROSTLINE.PRIN-006">ancestors of a fixture child returns only transitive parents without downward scan.</SCN-001>
+    <SCN-002 target="P-FROSTLINE.PRIN-008">graph on a fixture anchor infers the .frostline boundary before .git and never scans HOME itself.</SCN-002>
+    <SCN-003 target="P-FROSTLINE.TECH-003">the packaged product runs end-to-end from a built package without development-only overrides.</SCN-003>
+  </Scenarios>
+</V-P-FROSTLINE>

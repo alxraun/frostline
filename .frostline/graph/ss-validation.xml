@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-engineering.xml -->
+<SS-VALIDATION>
+  <Purpose>
+    Give humans and coding agents high-signal executable evidence for FLI invariants and user paths, and define the release-confidence process.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Architecture tests enforcing thin integrations and dependency direction.</SCP-IN-001>
+    <SCP-IN-002>Core scenario/contract/generative tests; integration tests and cross-harness parity; end-to-end packaged-product tests; release/offline/reproducibility/cleanliness tests.</SCP-IN-002>
+    <SCP-IN-003>Semantic evals: schema conformance, Codemap fidelity, ownership/duplication, uncertainty behavior.</SCP-IN-003>
+    <SCP-IN-004>Owner-local fixtures; performance/cost/concurrency measurement.</SCP-IN-004>
+    <SCP-OUT-001>Weakening or redefining FLI semantics to pass evals.</SCP-OUT-001>
+    <SCP-OUT-002>Unit-test coverage metrics and raw test count as confidence metrics.</SCP-OUT-002>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>The knowledge graph is the semantic authority for test obligations; the verification plane states them explicitly.</PRIN-001>
+    <PRIN-002>Generative/property/model-based coverage over manual enumeration of equivalent cases where a stable property exists.</PRIN-002>
+    <PRIN-003>Every discovered defect becomes a regression obligation before or with repair when practical.</PRIN-003>
+    <PRIN-004>Semantic quality is not deterministic correctness; clean project stays unchanged; ambiguous evidence fails closed.</PRIN-004>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>Architecture tests enforce Core !-> Integrations and that integrations use supported Core surfaces without duplicating declaration parsing, selector Resolution, or root inference.</REQ-001>
+    <REQ-002>The canonical Agent Skill has one harness-independent owner and no integration-local semantic forks; the default package exposes Core plus the canonical skill.</REQ-002>
+    <REQ-003>Core ancestor tests cover: no-declaration file -> empty context; literal nearest-upward resolution; recursive/transitive parents; multiple parents; cycles; invalid/missing targets; symlinks; filesystem-root termination; no downward/full scan; no glob acceptance.</REQ-003>
+    <REQ-004>Core graph tests cover: anchor without declaration does not participate; boundary priority explicit root -> nearest `.frostline` -> nearest `.git` -> top-level child of `HOME`; HOME itself never full-scanned; unsafe/no inferred boundary -> diagnostic; one bounded full scan; external parent ancestry included without scanning external subtrees; additions/deletions/cache rebuild; ignored/untracked participation independence.</REQ-004>
+    <REQ-005>Selector tests prove every glob/wildcard/brace/class/escape form is rejected and literal selectors remain deterministic.</REQ-005>
+    <REQ-006>Cache/state tests prove derived-state removal or corruption changes performance/reinjection only, never semantic truth; delivery tests prove one scope may traverse unrelated filesystem scopes without path collision.</REQ-006>
+    <REQ-007>Knowledge schema tests cover tier matrix conformance, statement prefix/numbering validation, FQID target resolution, and Codemap CDATA constraints.</REQ-007>
+    <REQ-008>Tests must not mutate user configuration/environment outside a controlled sandbox; test output/log/temp state is cleaned.</REQ-008>
+    <REQ-009>E2E: built package -> realistic temporary scope -> observable FLI user path; bundled assets resolve without development-only overrides.</REQ-009>
+    <REQ-010>Release: self-contained/offline, deterministic complete manifest, no undeclared runtime dependency, clean filesystem behavior; release gates include canonical skill projection/registration and no Session Start semantic prompt.</REQ-010>
+    <REQ-011>Current release target: Codex, Linux x86_64; local/manual release checks are acceptable; a CI provider is not an architectural requirement.</REQ-011>
+    <REQ-012>Repository dogfooding: every `docs/*.xml` node passes `validateKnowledge`; the docs graph is a DAG with tier order M -> SS -> S -> P; role mapping holds (packages/** -> M, tests/** -> V, integrations/** -> M|SS); every scenario `target` FQID resolves to an existing statement; every &lt;File&gt; in &lt;TestFiles&gt; exists.</REQ-012>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `tests/core` + `tests/architecture` + `tests/integrations` + `tests/e2e` + `tests/release` -> `V-*` scenarios
+* `scripts/test.sh` -> `releaseGate`
+* `verify.sh` + `test.sh` -> `manifest.sha256` + `reproducibility`
+]]>
+  </Codemap>
+</SS-VALIDATION>

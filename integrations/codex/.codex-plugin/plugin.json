@@ -1,0 +1,18 @@
+{
+  "name": "frostline",
+  "version": "0.2.0",
+  "description": "Semantic project knowledge for Codex",
+  "author": {
+    "name": "Frostline contributors"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Frostline",
+    "shortDescription": "Maintain and inject semantic project knowledge.",
+    "longDescription": "Frostline injects deterministic semantic ancestors after actual reads. Ships the canonical frostline-graph skill.",
+    "developerName": "Frostline contributors",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Work in this repository using the Frostline project model."
+  }
+}

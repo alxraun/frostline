@@ -1,0 +1,19 @@
+# parents: @.frostline/graph/v-m-codex-hook.xml
+
+[package]
+name = "frostline-codex"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Thin Codex adapter for Frostline"
+
+[workspace]
+
+[dependencies]
+read-classifier = { path = "../../../packages/read-classifier", package = "frostline-read-classifier" }
+libc = "0.2"
+rama-error = "=0.3.0-alpha.4"
+rama-macros = "=0.3.0-alpha.4"
+rama-utils = "=0.3.0-alpha.4"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"

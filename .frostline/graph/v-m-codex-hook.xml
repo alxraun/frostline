@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-codex-hook.xml -->
+<V-M-CODEX-HOOK>
+  <Command>deno test --allow-all tests/integrations/codex/m-codex-hook.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/integrations/codex/m-codex-hook.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-CODEX-HOOK.REQ-001">only classifier-confirmed reads become Core observations; plugin-subtree reads are skipped.</SCN-001>
+    <SCN-002 target="M-CODEX-HOOK.REQ-001">relative reads resolve against the hook input cwd without heuristics.</SCN-002>
+    <SCN-003 target="M-CODEX-HOOK.REQ-002">strict mode surfaces declaration and selector diagnostics with preserved independent branches.</SCN-003>
+  </Scenarios>
+</V-M-CODEX-HOOK>

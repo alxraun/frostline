@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/p-frostline.xml -->
+<S-CORE>
+  <Purpose>
+    Provide complete deterministic FLI behavior for normal agent work without model or
+    runtime-framework coupling.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Runtime: declaration parser, Resolution, graph boundary inference, Discovery, Graph, Context, Delivery.</SCP-IN-001>
+    <SCP-IN-002>Knowledge schema contracts: tier matrix, statement grammar, FQID addressing validation.</SCP-IN-002>
+    <SCP-IN-003>Package target: packages/core; canonical CLI `fli` and public TypeScript API `Frostline`.</SCP-IN-003>
+    <SCP-OUT-001>Agent Skills ownership, packaging, registration.</SCP-OUT-001>
+    <SCP-OUT-002>Harness APIs, prompt interpretation, repository-scale semantic inference.</SCP-OUT-002>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>Core is the single authority for FLI declaration parsing, graph semantics, and node schema validation.</PRIN-001>
+    <PRIN-002>Integrations provide observed file paths and consume Core output; they never infer FLI roots or parse declarations.</PRIN-002>
+    <PRIN-003>Core correctness is independent of Agent Skills existence, build, installation, configuration.</PRIN-003>
+    <PRIN-004>Dependency direction: Core does not depend on Integrations.</PRIN-004>
+    <PRIN-005>Derived cache is disposable acceleration, never semantic authority.</PRIN-005>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>Core build, test, use, and release cannot require Agent Skills, a model framework, or provider credentials.</REQ-001>
+    <REQ-002>Core execution uses deterministic filesystem/state inputs only.</REQ-002>
+    <REQ-003>Canonical CLI: `fli ancestors FILE [FILE...]` and `fli graph FILE|DIR [--root DIR]`; no `fli read` alias.</REQ-003>
+    <REQ-004>Public TypeScript API: `Frostline.ancestors`, `Frostline.graph`, `Frostline.resetContext`, `Frostline.resetSession`; no deprecated read request types.</REQ-004>
+    <REQ-005>Correctness never depends on cache, daemon, watcher, Git state, or long-lived process state; cache removal yields clean rebuild/reinjection only.</REQ-005>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `Frostline` -> `Engine` + `DeliveryStore`
+* `AncestorsRequest` -> `Frostline.ancestors` -> `AncestorsOutput`
+* `GraphRequest` -> `Frostline.graph` -> `GraphOutput`
+* `Frostline.resetContext` + `Frostline.resetSession` -> `DeliveryStore`
+* `.frostline/graph/*.xml` -> `validateKnowledge` -> `KnowledgeValidation`
+]]>
+  </Codemap>
+</S-CORE>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-runtime.xml -->
+<M-SYNTAX>
+  <Purpose>
+    Parse child-owned `parents` declarations from the file-leading comment area of any text file.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Leading declaration area of declaration-capable files across supported comment syntaxes.</SCP-IN-001>
+    <SCP-IN-002>Recognized preludes: UTF-8 BOM, shebang, XML prolog, frontmatter, DOCTYPE, INI headers.</SCP-IN-002>
+    <SCP-OUT-001>Declaration-like text after the leading comment area ends.</SCP-OUT-001>
+    <SCP-OUT-002>Selector resolution and graph semantics.</SCP-OUT-002>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>`parents` is the only supported semantic-edge declaration; legacy `children:` produces an explicit syntax diagnostic and no edge.</REQ-001>
+    <REQ-002>Parse order: skip recognized preludes, then leading comment/header area only; later declaration-like text is ignored.</REQ-002>
+    <REQ-003>Comment syntax comes from the file extension when recognized, otherwise from the actual leading comment marker (`&lt;!--`, `//`, `#`, `--`).</REQ-003>
+    <REQ-004>A binary file (NUL byte in the leading area) never participates.</REQ-004>
+    <REQ-005>No declaration is a valid no-op; a declaration holder participates even when used only as a graph-discovery seed.</REQ-005>
+    <REQ-006>Duplicate canonical edges are idempotent; selector order is retained where topology does not constrain order.</REQ-006>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>Leading area bytes of a candidate file.</IN-001>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`ParsedFile` with declarations and diagnostics.</OUT-001>
+    </Outputs>
+    <SideEffects>
+      <None />
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `DeclarationKind` -> `"parents"`
+* `Selector` -> `raw` + `order`
+* `supportsDeclarations` -> `readLeadingArea` -> `parse` -> `ParsedFile`
+* `skipPrelude` -> `bomMarker` | `shebang` | `xmlProlog` | `frontmatter` | `iniHeaders`
+* `extension` : `htmlExtensions` | `slashExtensions` | `hashExtensions` | `dashExtensions` | `iniExtensions`
+* `leadingComments` -> `declarationLine` -> `splitSelectorList` -> `Selector[]`
+]]>
+  </Codemap>
+</M-SYNTAX>

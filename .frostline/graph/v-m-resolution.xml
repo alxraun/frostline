@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-resolution.xml -->
+<V-M-RESOLUTION>
+  <Command>deno test --allow-all tests/core/resolution.test.ts tests/core/selectors.test.ts tests/core/local-first-resolution.test.ts tests/core/target-space.test.ts tests/core/graph-boundaries.test.ts tests/core/home-boundary.test.ts tests/core/no-git-boundaries.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/m-resolution.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-RESOLUTION.REQ-002">a selector resolves at the nearest upward candidate base and stops at the first valid canonical file.</SCN-001>
+    <SCN-002 target="M-RESOLUTION.REQ-004">every glob/wildcard/brace/class/escape selector form is rejected with a diagnostic.</SCN-002>
+    <SCN-003 target="M-RESOLUTION.REQ-005">symlink targets and generated/derived paths are rejected from the target space.</SCN-003>
+    <SCN-004 target="M-RESOLUTION.REQ-007">graph boundary priority is explicit root, then nearest .frostline, then .git, then top-level child of HOME; HOME itself is never scanned.</SCN-004>
+  </Scenarios>
+</V-M-RESOLUTION>

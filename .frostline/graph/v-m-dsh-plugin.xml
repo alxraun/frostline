@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-dsh-plugin.xml -->
+<V-M-DSH-PLUGIN>
+  <Command>deno test --allow-all tests/integrations/deepseek-harness/m-dsh-plugin.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/integrations/deepseek-harness/m-dsh-plugin.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-DSH-PLUGIN.REQ-001">only accepted unmodified native `read` results with canonical `value.path` become observations.</SCN-001>
+    <SCN-002 target="M-DSH-PLUGIN.REQ-004">non-empty newly delivered context is injected via additionalContexts with a visible notice; empty/delivered context stays silent.</SCN-002>
+    <SCN-003 target="M-DSH-PLUGIN.REQ-003">FLI_DIAGNOSTICS selects default/strict modes; unsupported values fall back with one configuration notice.</SCN-003>
+    <SCN-004 target="M-DSH-PLUGIN.REQ-001">accepted unmodified bash results classify through the bundled classifier; non-read commands, blocked/replaced results, and classifier failures produce no observation and no guessing.</SCN-004>
+  </Scenarios>
+</V-M-DSH-PLUGIN>

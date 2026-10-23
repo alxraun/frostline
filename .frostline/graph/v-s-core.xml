@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-core.xml -->
+<V-S-CORE>
+  <Command>deno test --allow-all tests/core/cli.test.ts tests/core/failure.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/s-core.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="S-CORE.REQ-003">`fli ancestors FILE` and `fli graph FILE|DIR` work as canonical CLI; no `fli read` alias exists.</SCN-001>
+    <SCN-002 target="S-CORE.REQ-005">removing or corrupting derived state yields a clean rebuild and reinjection without semantic change.</SCN-002>
+  </Scenarios>
+</V-S-CORE>

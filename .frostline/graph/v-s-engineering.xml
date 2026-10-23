@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/s-engineering.xml -->
+<V-S-ENGINEERING>
+  <Command>deno test --allow-all tests/architecture tests/e2e</Command>
+
+  <TestFiles>
+    <File>tests/architecture/s-engineering.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="S-ENGINEERING.REQ-001">a successful build/test cycle leaves the repository status clean with no residue.</SCN-001>
+    <SCN-002 target="S-ENGINEERING.REQ-002">the canonical skill lives once in packages/skills, project-local skills stay in .agents/skills, and both are only referenced elsewhere.</SCN-002>
+  </Scenarios>
+</V-S-ENGINEERING>

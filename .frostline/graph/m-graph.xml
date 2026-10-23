@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-runtime.xml -->
+<M-GRAPH>
+  <Purpose>
+    Provide one deterministic graph model of participating FLI files and child-owned ancestry edges for inspection clients.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Participation set and canonical edges inside one graph boundary plus external ancestry.</SCP-IN-001>
+    <SCP-IN-002>`GraphOutput` contract for clients (e.g. graph viewers).</SCP-IN-002>
+    <SCP-OUT-001>Declaration parsing, resolution, boundary inference.</SCP-OUT-001>
+    <SCP-OUT-002>Visualization-specific pruning.</SCP-OUT-002>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>Topology is a DAG; a cycle is a diagnostic and the cyclic branch is excluded from valid ancestor context.</REQ-001>
+    <REQ-002>`A parents @B` == edge `A -> B`; filesystem adjacency alone is not an edge; Git ignore/tracked state is not participation authority.</REQ-002>
+    <REQ-003>A file anchor without a declaration is valid and may be absent from `nodes`; a directory anchor is never a node or focus merely because requested.</REQ-003>
+    <REQ-004>`fli ancestors FILE` returns only FILE's transitive parent context; it never searches children; clients derive children by reversing `edges`.</REQ-004>
+    <REQ-005>`GraphOutput` = `root` + optional participating `focus` metadata + participating `nodes` + canonical `edges` + diagnostics; external nodes may use absolute identities.</REQ-005>
+    <REQ-006>Graph clients provide a FILE anchor and consume `GraphOutput`; they do not parse FLI declarations or infer roots independently.</REQ-006>
+    <REQ-007>Duplicate canonical edges are idempotent; an invalid branch is isolated while independent valid branches are preserved.</REQ-007>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>`GraphRequest.anchor`: existing file or directory path.</IN-001>
+      <IN-002>Optional explicit root override.</IN-002>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`GraphOutput` with root, focus, nodes, edges, diagnostics.</OUT-001>
+    </Outputs>
+    <SideEffects>
+      <EFF-001>May refresh disposable discovery cache.</EFF-001>
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `AncestryGraph` -> `addNode` + `addEdge` + `nodes` + `edges` + `diagnostics` + `orderedAncestors`
+* `Engine.graph` -> `ProjectIndex.scan` -> `ProjectIndex.participationGraph` -> `GraphOutput`
+]]>
+  </Codemap>
+</M-GRAPH>

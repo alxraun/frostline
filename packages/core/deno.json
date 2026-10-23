@@ -1,0 +1,7 @@
+{
+  "nodeModulesDir": "none",
+  "tasks": {
+    "build": "deno compile --allow-read --allow-write --allow-env --allow-sys --output bin/fli src/cli.ts",
+    "test": "deno test --allow-all ../../tests/core"
+  }
+}

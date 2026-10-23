@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-deepseek-harness.xml -->
+<M-DSH-PLUGIN>
+  <Purpose>
+    Implement the DSH adapter wiring: core runner transport, skill registration, lifecycle handling, and notices.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>DSH typed extension points: tools/post-execute, agent/session-start, session/event, ctx.skills.</SCP-IN-001>
+    <SCP-OUT-001>Graph, knowledge schema, Resolution, root detection, cache, ontology implementation.</SCP-OUT-001>
+  </Scope>
+
+  <Requirements>
+    <REQ-001>`observedReadPath` extracts the canonical path only from accepted, unmodified native `read` results; `observedBashCommand` plus `bashReadFiles` classify accepted, unmodified `bash` results through the bundled `fli-classify-reads` shared classifier, resolving relative paths only against a reliable absolute command cwd: an absolute bash `workdir` argument takes precedence over the session cwd, and with neither, relative classified paths are safely skipped.</REQ-001>
+    <REQ-002>The core runner invokes bundled `fli ancestors` and returns context, diagnostics/state warnings, and injection status; a classifier failure is an explicit operational diagnostic and never replaces or rejects the original tool result.</REQ-002>
+    <REQ-003>Notices follow SS-ADAPTER-UX via `createUxMode` and `outputNotices`; `resolveDiagnosticsMode` reads `process.env.FLI_DIAGNOSTICS`.</REQ-003>
+    <REQ-004>Non-empty newly delivered context is injected via `additionalContexts` with a user-visible injection notice; empty/already-delivered context emits no repetitive success status.</REQ-004>
+  </Requirements>
+
+  <Contract>
+    <Inputs>
+      <IN-001>DSH tool post-execute result for the native `read` tool or the `bash` tool.</IN-001>
+      <IN-002>Reliable Agent/session lifecycle events.</IN-002>
+    </Inputs>
+    <Outputs>
+      <OUT-001>`additionalContexts` injection and DSH-native notices.</OUT-001>
+      <OUT-002>Skill registrations through `ctx.skills`.</OUT-002>
+    </Outputs>
+    <SideEffects>
+      <EFF-001>Updates bundled Core delivery state through reset operations.</EFF-001>
+    </SideEffects>
+  </Contract>
+
+  <Codemap>
+<![CDATA[
+* `applyWithRunner` -> `DshContext.on("tools/post-execute")` -> `observedReadPath` | `observedBashCommand` -> `bashReadFiles` -> `CoreRunner.ancestors` -> `createUxMode` -> `outputNotices`
+* `applyWithRunner` -> `DshContext.on("agent/session-start")` -> `createUxMode` + `CoreRunner.resetSession`
+* `applyWithRunner` -> `DshContext.on("session/event")` -> `CoreRunner.resetContext`
+* `createCoreRunner` -> `fli ancestors`
+* `bashReadFiles` -> `bin/fli-classify-reads`
+]]>
+  </Codemap>
+</M-DSH-PLUGIN>

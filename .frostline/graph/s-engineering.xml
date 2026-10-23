@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/p-frostline.xml -->
+<S-ENGINEERING>
+  <Purpose>
+    Keep the FLI product understandable, cohesive, reproducible, and verifiable: repository organization, testing, validation, and distribution.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Repository cleanliness and physical organization contract.</SCP-IN-001>
+    <SCP-IN-002>Centralized mechanically executable verification system.</SCP-IN-002>
+    <SCP-IN-003>Release-confidence validation process and release gates.</SCP-IN-003>
+    <SCP-IN-004>Reproducible package composition and installation.</SCP-IN-004>
+    <SCP-OUT-001>Runtime or knowledge-model semantics.</SCP-OUT-001>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>Every persistent file has one obvious owner/place; physical organization expresses implementation responsibility, not semantic ontology.</PRIN-001>
+    <PRIN-002>Observable invariant/user path over implementation-mirroring test volume; mechanical architecture enforcement over prose-only rules.</PRIN-002>
+    <PRIN-003>Clean project stays unchanged; ambiguous evidence fails closed.</PRIN-003>
+    <PRIN-004>Installation unity is not component coupling; component-specific tooling stays with its owner.</PRIN-004>
+  </Principles>
+
+  <Requirements>
+    <REQ-001>Successful build/test without intentional product mutation leaves a clean repository status; program execution leaves no unmanaged persistent traces.</REQ-001>
+    <REQ-002>The canonical skill lives once in `packages/skills`; integrations package/register it without semantic copies. Project-local skills live in `.agents/skills/` and are never distributed.</REQ-002>
+    <REQ-003>Checkout-identical builds produce equal normalized content manifests; incidental timestamps/filesystem metadata are not content identity.</REQ-003>
+  </Requirements>
+
+  <Codemap>
+<![CDATA[
+* `packages/core` + `packages/skills` + `integrations/<harness>` + `tests/` + `scripts/` + `.frostline/`
+* `scripts/test.sh` -> `deno test` + `cargo fmt` + `cargo clippy`
+* `scripts/build.sh` -> `fli` + `fli-classify-reads` + `frostline-codex`
+* `scripts/package.sh` -> `manifest.sha256` -> `scripts/verify.sh`
+]]>
+  </Codemap>
+</S-ENGINEERING>

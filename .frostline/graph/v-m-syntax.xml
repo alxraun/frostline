@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-syntax.xml -->
+<V-M-SYNTAX>
+  <Command>deno test --allow-all tests/core/syntax.test.ts tests/core/syntax-matrix.test.ts tests/core/shebang.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/m-syntax.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-SYNTAX.REQ-001">a legacy `children:` declaration produces a syntax diagnostic and no edge.</SCN-001>
+    <SCN-002 target="M-SYNTAX.REQ-003">each supported extension maps to its comment syntax; unknown extensions fall back to the actual leading marker.</SCN-002>
+    <SCN-003 target="M-SYNTAX.REQ-002">recognized preludes (BOM, shebang, XML prolog, frontmatter, DOCTYPE) are skipped before the leading comment area; later declaration-like text is ignored.</SCN-003>
+    <SCN-004 target="M-SYNTAX.REQ-004">a NUL byte in the leading area prevents participation.</SCN-004>
+  </Scenarios>
+</V-M-SYNTAX>

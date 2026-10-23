@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-knowledge.xml -->
+<V-SS-KNOWLEDGE>
+  <Command>deno test --allow-all tests/core/ss-knowledge.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/ss-knowledge.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="SS-KNOWLEDGE.REQ-002">the tier field matrix is exposed as the canonical knowledge contract.</SCN-001>
+    <SCN-002 target="SS-KNOWLEDGE.REQ-006">scenario targets address statements by FQID form.</SCN-002>
+  </Scenarios>
+</V-SS-KNOWLEDGE>

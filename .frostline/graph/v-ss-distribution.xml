@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/ss-distribution.xml -->
+<V-SS-DISTRIBUTION>
+  <Command>deno test --allow-all tests/release/ss-distribution.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/release/ss-distribution.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="SS-DISTRIBUTION.REQ-003">the composed package contains exactly the prebuilt artifacts plus the exact canonical skill assets with a complete deterministic manifest.</SCN-001>
+    <SCN-002 target="SS-DISTRIBUTION.REQ-004">offline verification passes without dependency resolution, network, or model inference.</SCN-002>
+    <SCN-003 target="SS-DISTRIBUTION.REQ-006">local installation does not modify the Git checkout.</SCN-003>
+  </Scenarios>
+</V-SS-DISTRIBUTION>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- parents: @.frostline/graph/m-context.xml -->
+<V-M-CONTEXT>
+  <Command>deno test --allow-all tests/core/runtime.test.ts tests/core/context-encoding.test.ts tests/core/delivery-identifiers.test.ts tests/core/ancestors-delivery-identities.test.ts</Command>
+
+  <TestFiles>
+    <File>tests/core/m-context.test.ts</File>
+  </TestFiles>
+
+  <Scenarios>
+    <SCN-001 target="M-CONTEXT.REQ-002">a multi-read group produces a deduplicated ancestor-first union.</SCN-001>
+    <SCN-002 target="M-CONTEXT.REQ-003">invalid UTF-8 yields a diagnostic and branch exclusion without replacement-character corruption; CDATA terminators split safely.</SCN-002>
+    <SCN-003 target="M-CONTEXT.REQ-005">document identity is project-qualified and absolute paths are never exposed.</SCN-003>
+    <SCN-004 target="M-CONTEXT.REQ-008">delivery suppression is scoped and reset operations clear it without semantic change.</SCN-004>
+  </Scenarios>
+</V-M-CONTEXT>

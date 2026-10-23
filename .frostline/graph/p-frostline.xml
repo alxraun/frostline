@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<P-FROSTLINE>
+  <Purpose>
+    Frostline (FLI) connects project intent to codebase implementation via an architectural
+    knowledge graph: a DAG of contract nodes and child-owned in-file parents declarations,
+    delivered to agents as deterministic read-time ancestor context.
+  </Purpose>
+
+  <Scope>
+    <SCP-IN-001>Core: lightweight harness-independent deterministic FLI capability.</SCP-IN-001>
+    <SCP-IN-002>Runtime: declaration parsing, ancestor Resolution, graph-boundary inference, Discovery, Graph, Context, Delivery.</SCP-IN-002>
+    <SCP-IN-003>Knowledge model: XML contract nodes in tiers Project/System/Subsystem/Module plus a Verification plane.</SCP-IN-003>
+    <SCP-IN-004>Exported Agent skill: frostline-graph. Project-local authoring skills (frostline-verification, frostline-logging) live in `.agents/skills/` and are not part of the distributed product.</SCP-IN-004>
+    <SCP-IN-005>Harness integrations: thin observation/delivery adapters.</SCP-IN-005>
+    <SCP-OUT-001>Model inference or provider credentials in Core correctness.</SCP-OUT-001>
+    <SCP-OUT-002>Repository-scale semantic construction/repair skills beyond the FLI skill set.</SCP-OUT-002>
+    <SCP-OUT-003>Global semantic Session Start prompts.</SCP-OUT-003>
+  </Scope>
+
+  <Principles>
+    <PRIN-001>Architectural hierarchy: the graph decomposes global intent down to concrete implementation modules (M -> SS -> S -> P).</PRIN-001>
+    <PRIN-002>Inheritance without duplication: a statement is anchored at the highest applicable abstraction level; descendants inherit context.</PRIN-002>
+    <PRIN-003>Contract-driven authority: contracts are primary; implementation source realizes specified contractual obligations.</PRIN-003>
+    <PRIN-004>Graph authority: filesystem plus explicit child-owned parents declarations; derived state is disposable.</PRIN-004>
+    <PRIN-005>Actual-read ancestry over speculative relevance search.</PRIN-005>
+    <PRIN-006>ancestors(FILE) follows only transitive parents; graph(FILE|DIR) performs one bounded downward discovery, then follows escaping parent edges upward only.</PRIN-006>
+    <PRIN-007>Parent Resolution and graph-boundary inference are separate mechanisms.</PRIN-007>
+    <PRIN-008>Graph boundary is Core-owned: explicit root -> nearest .frostline/ -> nearest .git/ -> top-level child of HOME; cwd and session identity never define a semantic root.</PRIN-008>
+    <PRIN-009>One session may traverse unrelated files/scopes without semantic bleed; HOME itself is never an implicit full-scan region.</PRIN-009>
+    <PRIN-010>One statement -> one owning node -> one field -> one FQID address.</PRIN-010>
+    <PRIN-011>Model-facing FLI routing uses native skill catalog descriptions only.</PRIN-011>
+  </Principles>
+
+  <Technology>
+    <TECH-001>TypeScript is the default implementation language; non-TypeScript code exists only as justified owner-local capability (Codex Rust read classifier).</TECH-001>
+    <TECH-002>Release target: Codex plugin, Linux x86_64; active development target: DeepSeek Harness, Linux x86_64.</TECH-002>
+    <TECH-003>Installed packages are self-contained and offline; no undeclared runtime dependency or development toolchain.</TECH-003>
+    <TECH-004>Deno is the canonical development test runner; reproducibility inputs (lockfiles) are pinned.</TECH-004>
+  </Technology>
+
+  <Codemap>
+<![CDATA[
+* `Frostline.ancestors` -> `Engine.process` -> `discoverAncestors` -> `AncestorsOutput`
+* `Frostline.graph` -> `Engine.graph` -> `graphBoundary` -> `ProjectIndex.scan` -> `GraphOutput`
+* `s-core` -> `ss-runtime` + `ss-knowledge`
+* `s-integration` -> `ss-codex` + `ss-deepseek-harness` + `ss-adapter-ux`
+* `s-engineering` -> `ss-repository` + `ss-validation` + `ss-distribution`
+* `packages/skills/frostline-graph/SKILL.md` : `fliSkills`; project-local authoring skills in `.agents/skills/` are not distributed
+]]>
+  </Codemap>
+</P-FROSTLINE>
