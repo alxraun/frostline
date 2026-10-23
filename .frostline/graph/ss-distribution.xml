@@ -24,11 +24,12 @@
   </Requirements>
   <Codemap>
 <![CDATA[
-* scripts/build.sh -> Core + classifier + Codex adapter + DSH adapter
-* scripts/package.sh -> codex bundle + dsh bundle
-* scripts/verify.sh -> manifest.sha256
-* scripts/install-dev.sh -> native codex plugin + native dsh bundle
-* scripts/release.sh -> codex marketplace + dsh .tgz
+* `scripts/build.sh` -> `packages/core` -> `fli` + `packages/read-classifier` -> `fli-classify-reads` + `integrations/codex/native` -> `frostline-codex`
+* `scripts/licenses.ts` -> `cargo metadata` -> `licenses/NOTICE.md` + `licenses/<SPDX>.txt`
+* `scripts/package.sh` -> codex bundle + dsh bundle + `manifest.sha256`
+* `scripts/verify.sh` -> `manifest.sha256` + `licenses/NOTICE.md` + lockfile crates coverage
+* `scripts/install-dev.sh` -> native codex plugin + native dsh bundle
+* `scripts/release.sh` -> `scripts/package.sh` + `scripts/verify.sh` -> codex marketplace + dsh .tgz
 ]]>
   </Codemap>
 </SS-DISTRIBUTION>

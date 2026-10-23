@@ -40,12 +40,16 @@
 
   <Codemap>
 <![CDATA[
-* `Frostline.ancestors` -> `Engine.process` -> `discoverAncestors` -> `AncestorsOutput`
+* `Frostline.ancestors` -> `Engine.process` -> `discoverAncestors` -> `AncestryGraph.orderedAncestors` -> `renderContext` -> `AncestorsOutput`
 * `Frostline.graph` -> `Engine.graph` -> `graphBoundary` -> `ProjectIndex.scan` -> `GraphOutput`
-* `s-core` -> `ss-runtime` + `ss-knowledge`
-* `s-integration` -> `ss-codex` + `ss-deepseek-harness` + `ss-adapter-ux`
-* `s-engineering` -> `ss-repository` + `ss-validation` + `ss-distribution`
-* `packages/skills/frostline-graph/SKILL.md` : `fliSkills`; project-local authoring skills in `.agents/skills/` are not distributed
+* `Frostline.resetContext` + `Frostline.resetSession` -> `DeliveryStore`
+* `fli ancestors` -> `cli.ancestors` -> `Frostline.ancestors` | `fli graph` -> `cli.graph` -> `Frostline.graph`
+* `packages/core/src/runtime` -> `syntax` + `selector` + `discovery` + `graph` + `paths` + `context` + `delivery` + `engine` + `state`
+* `validateKnowledge` -> `KnowledgeValidation` : `packages/core/src/knowledge/schema.ts`
+* `post_tool_use` -> `classify_reads` -> `run_core` -> `HookOutput.system_message` : `integrations/codex/native`
+* `applyWithRunner` -> `DshContext.on("tools/post-execute")` -> `CoreRunner.ancestors` -> `outputNotices` : `integrations/deepseek-harness`
+* `scripts/build.sh` -> `fli` + `fli-classify-reads` + `frostline-codex` ; `scripts/package.sh` -> `manifest.sha256` -> `scripts/verify.sh`
+* `packages/skills/frostline-graph/SKILL.md` : skillCatalog
 ]]>
   </Codemap>
 </P-FROSTLINE>

@@ -33,10 +33,13 @@
 
   <Codemap>
 <![CDATA[
-* `validateKnowledge` -> `KnowledgeValidation`
-* `tierOf` -> `tierFields`
-* `statementPrefixes` + `NNN` -> `diagnostics`
-* `isFqid` : `NODE-ID` + `.` + `STATEMENT-ID`
+* `validateKnowledge` -> `parseXml` -> `parseElement` -> `parseAttributes` -> `validateField` -> `KnowledgeValidation`
+* `tierPatterns` -> `tierOf` -> `tierFields` == `allowedFields`
+* `statementPrefixes` + `statementPattern` -> `validateStatements` : `NNN` incremental
+* `isFqid` : `NODE-ID` + `.` + `STATEMENT-ID` -> `SCN.target`
+* `validateCodemap` -> CDATA + identifier charset
+* `isStructuralGroup` -> `structuralGroups`
+* `decodeEntities` -> `parseAttributes` -> `Element.attributes`
 ]]>
   </Codemap>
 </M-KNOWLEDGE-SCHEMA>

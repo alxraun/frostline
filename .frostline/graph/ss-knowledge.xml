@@ -36,10 +36,13 @@
 
   <Codemap>
 <![CDATA[
-* `M-PAYMENT-SERVICE` == `m-payment-service.xml`
-* `.frostline/graph/*.xml` -> `validateKnowledge` -> `KnowledgeValidation`
-* `roleMapping` : `src/` -> `M-*` + `tests/` -> `V-*`
-* `packages/skills/frostline-graph/SKILL.md` -> `tierFields` + `statementPrefixes` + `isFqid`
+* `.frostline/graph/*.xml` -> `parseXml` -> `validateKnowledge` -> `KnowledgeValidation`
+* `knowledgeTiers` -> `tierPatterns` -> `tierOf`
+* `tierFields` : `Project` -> `Technology` + `Codemap` | `Module` -> `Contract`
+* `statementPrefixes` + `statementPattern` -> `validateStatements` : `NNN`
+* `validateScenario` -> `SCN.target` -> `isFqid` : `NODE-ID` + `.` + `STATEMENT-ID`
+* `validateCodemap` -> CDATA only
+* `roleMapping` : `src/` -> `Module` + `tests/` -> `Verification`
 ]]>
   </Codemap>
 </SS-KNOWLEDGE>

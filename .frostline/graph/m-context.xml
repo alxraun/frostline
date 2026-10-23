@@ -40,11 +40,11 @@
   <Codemap>
 <![CDATA[
 * `ContextDocument` -> `path` + `identity` + `project` + `content`
-* `projectQualifiedIdentity(root, value)` -> `ContextDocument.identity`
-* `projectDiscriminator(root)` -> `ContextDocument.project`
-* `Engine.process` -> strict UTF-8 `ContextDocument`
-* `renderContext(ContextDocument[])` -> `string`
-* `DeliveryScope` -> `DeliveryStore.filter`
+* `projectQualifiedIdentity(root, value)` -> `relativeIdentity` -> `ContextDocument.identity`
+* `projectDiscriminator(root)` -> `identityHex` -> `ContextDocument.project`
+* `Engine.process` -> `readUtf8Strict` -> strict UTF-8 `ContextDocument`
+* `renderContext(ContextDocument[])` -> `documentTags` -> `kebab` + `escapeAttribute` -> `string`
+* `DeliveryScope` -> `DeliveryStore.deliver` -> `DeliveryResult`
 ]]>
   </Codemap>
 </M-CONTEXT>

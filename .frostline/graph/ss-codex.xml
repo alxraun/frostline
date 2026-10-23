@@ -29,10 +29,12 @@
 
   <Codemap>
 <![CDATA[
-* `main` -> `dispatch` -> `HookOutput`
-* `dispatch` -> `session_start` | `post_tool_use` | `post_compact`
-* `post_tool_use` -> `read_classifier::classify_reads` -> `run_core` -> `fli ancestors`
-* `is_inside_own_installation` == `true` => `skip`
+* `main` -> `run` -> `HookOutput`
+* `post_tool_use` | `session_start` | `post_compact`
+* `post_tool_use` -> `read_classifier::classify_reads` -> `resolve_read` -> `run_core` -> `fli ancestors`
+* `is_inside_own_installation` == `true` => skip
+* `resolve_diagnostics_mode` -> `FLI_DIAGNOSTICS` -> `DiagnosticsMode` == `default` | `strict`
+* `delivery_message` + `diagnostics_message` + `format_warnings` -> `system_message` + `additional_context`
 * `packages/skills/frostline-graph` -> `skills/`
 ]]>
   </Codemap>

@@ -28,10 +28,14 @@
 
   <Codemap>
 <![CDATA[
-* `packages/core` + `packages/skills` + `integrations/<harness>` + `tests/` + `scripts/` + `.frostline/`
-* `scripts/test.sh` -> `deno test` + `cargo fmt` + `cargo clippy`
+* `packages/core` + `packages/read-classifier` + `packages/skills` + `integrations/codex` + `integrations/deepseek-harness` + `tests/` + `scripts/` + `.frostline/`
+* `scripts/test.sh` -> `cargo test` + `deno test`
+* `scripts/check.sh` -> `deno fmt` + `deno lint` + `deno check` + `cargo fmt` + `cargo clippy`
 * `scripts/build.sh` -> `fli` + `fli-classify-reads` + `frostline-codex`
-* `scripts/package.sh` -> `manifest.sha256` -> `scripts/verify.sh`
+* `scripts/licenses.ts` -> `cargo metadata` -> `licenses/NOTICE.md` + `licenses/<SPDX>.txt`
+* `scripts/package.sh` -> `licenses/NOTICE.md` + `manifest.sha256` -> `scripts/verify.sh`
+* `scripts/install-dev.sh` -> `fli` + native plugin registration
+* `scripts/release.sh` -> `scripts/package.sh` -> `scripts/verify.sh` -> tag + attach
 ]]>
   </Codemap>
 </S-ENGINEERING>

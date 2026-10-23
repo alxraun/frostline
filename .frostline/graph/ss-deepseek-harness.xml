@@ -31,13 +31,14 @@
 
   <Codemap>
 <![CDATA[
-* `apply` -> `applyWithRunner` -> `createCoreRunner`
-* `applyWithRunner` -> `DshContext.skills.register`
-* `applyWithRunner` -> `DshContext.on("agent/session-start")` -> `CoreRunner.resetSession`
+* `apply` -> `assertHarnessSurface` -> `applyWithRunner` -> `createCoreRunner`
+* `applyWithRunner` -> `DshContext.skills.register` -> `parseSkillDocument` -> `SkillRegistration`
+* `applyWithRunner` -> `DshContext.on("agent/session-start")` -> `createUxMode` + `CoreRunner.resetSession`
 * `applyWithRunner` -> `DshContext.on("session/event")` -> `CoreRunner.resetContext`
-* `applyWithRunner` -> `DshContext.on("tools/post-execute")` -> `observedReadPath` | `observedBashCommand` -> `bashReadFiles` -> `CoreRunner.ancestors`
-* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS`
-* `testedDeepSeekHarnessVersion`
+* `applyWithRunner` -> `DshContext.on("tools/post-execute")` -> `observedReadPath` | `observedBashCommand` -> `bashReadFiles` -> `CoreRunner.ancestors` -> `outputNotices` -> `withContexts`
+* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `DiagnosticsMode` == `default` | `strict`
+* `createCoreRunner` -> `fli ancestors` -> `parseAncestorsOutput` -> `CoreAncestorsOutput`
+* `testedDeepSeekHarnessVersion` -> `Config`
 ]]>
   </Codemap>
 </SS-DEEPSEEK-HARNESS>

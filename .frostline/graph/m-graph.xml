@@ -38,7 +38,9 @@
   <Codemap>
 <![CDATA[
 * `AncestryGraph` -> `addNode` + `addEdge` + `nodes` + `edges` + `diagnostics` + `orderedAncestors`
-* `Engine.graph` -> `ProjectIndex.scan` -> `ProjectIndex.participationGraph` -> `GraphOutput`
+* `ParentEdge` -> `AncestryGraph.addEdge`
+* `Engine.graph` -> `graphBoundary` -> `ProjectIndex.scan` -> `ProjectIndex.participationGraph` -> `AncestryGraph` -> `GraphOutput`
+* `AncestryGraph.diagnostics` -> duplicate nodes | duplicate edges | unknown parents
 ]]>
   </Codemap>
 </M-GRAPH>

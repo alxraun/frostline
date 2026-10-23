@@ -29,7 +29,16 @@
 
   <Codemap>
 <![CDATA[
-* `packages/core` + `packages/skills` + `integrations/codex` + `integrations/deepseek-harness` + `tests/` + `scripts/` + `.frostline/graph/`
+* `packages/core/src/cli.ts` -> `fli` + `packages/core/src/index.ts` -> `Frostline`
+* `packages/core/src/runtime/` : `syntax.ts` + `selector.ts` + `discovery.ts` + `graph.ts` + `paths.ts` + `context.ts` + `delivery.ts` + `engine.ts` + `state.ts`
+* `packages/core/src/knowledge/schema.ts` -> `validateKnowledge`
+* `packages/read-classifier/src/lib.rs` -> `classify_reads`
+* `integrations/codex/native/src/` : `main.rs` + `adapter.rs` + `models.rs`
+* `integrations/deepseek-harness/src/` : `index.ts` + `types.ts`
+* `packages/skills/frostline-graph/` + `.agents/skills/`
+* `tests/` : `architecture` + `core` + `e2e` + `integrations` + `release`
+* `scripts/` : `build.sh` + `check.sh` + `test.sh` + `licenses.ts` + `package.sh` + `verify.sh` + `install-dev.sh` + `release.sh`
+* `.frostline/graph/`
 ]]>
   </Codemap>
 </SS-REPOSITORY>

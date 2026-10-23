@@ -35,12 +35,14 @@
 
   <Codemap>
 <![CDATA[
-* `DeclarationKind` -> `"parents"`
-* `Selector` -> `raw` + `order`
-* `supportsDeclarations` -> `readLeadingArea` -> `parse` -> `ParsedFile`
+* `DeclarationKind` == `"parents"`
+* `Selector` : `raw` + `order` ; `Declaration` -> `Selector[]` -> `ParsedFile`
+* `supportsDeclarations` -> `extension` -> `readLeadingArea` -> `parse` -> `ParsedFile`
 * `skipPrelude` -> `bomMarker` | `shebang` | `xmlProlog` | `frontmatter` | `iniHeaders`
-* `extension` : `htmlExtensions` | `slashExtensions` | `hashExtensions` | `dashExtensions` | `iniExtensions`
+* `extension` : `htmlExtensions` | `slashExtensions` | `hashExtensions` | `dashExtensions` | `iniExtensions` | `markupExtensions`
 * `leadingComments` -> `declarationLine` -> `splitSelectorList` -> `Selector[]`
+* `leadingAreaComplete` -> `autoAreaComplete` | `htmlAreaComplete` | `slashAreaComplete` | `lineAreaComplete`
+* `strippedSource` -> `autoComments` -> `skipMarkupPrelude` | `skipFrontmatterPrelude` | `skipIniPrelude`
 ]]>
   </Codemap>
 </M-SYNTAX>

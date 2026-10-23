@@ -33,10 +33,13 @@
 
   <Codemap>
 <![CDATA[
-* `applyWithRunner` -> `DshContext.on("tools/post-execute")` -> `observedReadPath` | `observedBashCommand` -> `bashReadFiles` -> `CoreRunner.ancestors` -> `createUxMode` -> `outputNotices`
-* `applyWithRunner` -> `DshContext.on("agent/session-start")` -> `createUxMode` + `CoreRunner.resetSession`
+* `apply` -> `assertHarnessSurface` -> `applyWithRunner` -> `registerBundledSkills` -> `DshContext.skills.register` -> `parseSkillDocument`
+* `applyWithRunner` -> `DshContext.on("tools/post-execute")` -> `observedReadPath` | `observedBashCommand` -> `observedFiles` -> `bashReadFiles` -> `CoreRunner.ancestors` -> `parseAncestorsOutput` -> `outputNotices` -> `withContexts`
+* `applyWithRunner` -> `DshContext.on("agent/session-start")` -> `createUxMode` + `CoreRunner.resetSession` -> `parseResetOutput`
 * `applyWithRunner` -> `DshContext.on("session/event")` -> `CoreRunner.resetContext`
-* `createCoreRunner` -> `fli ancestors`
+* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `DiagnosticsMode` == `default` | `strict`
+* `outputNotices` -> `isOperationalDiagnostic` + `renderDiagnostics` + `warningsToNotices` + `errorNotice` + `boundSummary` -> `createNotice` -> `UserMessage`
+* `createCoreRunner` -> `fli ancestors` -> `runCore` -> `parseDiagnostics` -> `invalidCoreOutput`
 * `bashReadFiles` -> `bin/fli-classify-reads`
 ]]>
   </Codemap>

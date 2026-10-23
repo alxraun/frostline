@@ -38,10 +38,11 @@
 
   <Codemap>
 <![CDATA[
-* `classify_reads` -> `codex_shell_command.parse_shell_script` -> `ParsedCommand::Read.path`
-* `ParsedCommand::ListFiles | Search | Unknown` => `skip`
-* `fli-classify-reads.stdin.commands` -> `classify_reads` -> `fli-classify-reads.stdout.reads`
-* `integrations/codex/native` : `read-classifier`
+* `classify_reads` -> `parse_shell_script` -> `ParsedCommand::Read.path` -> `reads.contains == false` => `reads.push`
+* `ParsedCommand::ListFiles` | `ParsedCommand::Search` | `ParsedCommand::Unknown` => `reads` unchanged
+* `Request.commands` -> `classify_reads` -> `Response.reads`
+* `run` -> `fail` => exit code != 0
+* `integrations/codex/native` : `read-classifier` crate
 * `integrations/deepseek-harness` -> `bin/fli-classify-reads`
 ]]>
   </Codemap>

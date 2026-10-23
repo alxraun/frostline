@@ -35,11 +35,11 @@
 <![CDATA[
 * `observedRead` -> `AncestorsRequest` -> `Frostline.ancestors` -> `AncestorsOutput`
 * `graphAnchor` -> `GraphRequest` -> `Frostline.graph` -> `GraphOutput`
-* `HookInput` -> `dispatch` -> `HookOutput` : `codex`
-* `applyWithRunner` -> `DshContext` : `deepseek-harness`
-* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `UxMode`
-* `packages/skills/frostline-graph` -> `skillCatalog`
-* `read_classifier::classify_reads` + `fli-classify-reads` -> `observedRead` : `packages/read-classifier`
+* `HookInput` -> `run` -> `post_tool_use` | `session_start` | `post_compact` -> `HookOutput` : `integrations/codex/native`
+* `apply` -> `applyWithRunner` -> `DshContext.on("tools/post-execute")` : `integrations/deepseek-harness`
+* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `UxMode` == `default` | `strict`
+* `classify_reads` + `fli-classify-reads` -> `observedRead` : `packages/read-classifier`
+* `packages/skills/frostline-graph` -> `SKILL_NAMES` -> `skillCatalog`
 ]]>
   </Codemap>
 </S-INTEGRATION>

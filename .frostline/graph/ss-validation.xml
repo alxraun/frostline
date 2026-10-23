@@ -38,9 +38,11 @@
 
   <Codemap>
 <![CDATA[
-* `tests/core` + `tests/architecture` + `tests/integrations` + `tests/e2e` + `tests/release` -> `V-*` scenarios
-* `scripts/test.sh` -> `releaseGate`
-* `verify.sh` + `test.sh` -> `manifest.sha256` + `reproducibility`
+* `tests/core` + `tests/architecture` + `tests/integrations` + `tests/e2e` + `tests/release` -> `Scenarios` -> `SCN.target`
+* `scripts/test.sh` -> `cargo test` + `deno test` -> releaseGate
+* `scripts/check.sh` -> `deno fmt` + `deno lint` + `deno check` + `cargo fmt` + `cargo clippy`
+* `scripts/test.sh` + `scripts/package.sh` -> `manifest.sha256` + reproducibility manifests
+* `scripts/verify.sh` -> package gates -> `manifest.sha256`
 ]]>
   </Codemap>
 </SS-VALIDATION>

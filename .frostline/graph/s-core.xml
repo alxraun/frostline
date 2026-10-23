@@ -33,9 +33,14 @@
   <Codemap>
 <![CDATA[
 * `Frostline` -> `Engine` + `DeliveryStore`
-* `AncestorsRequest` -> `Frostline.ancestors` -> `AncestorsOutput`
-* `GraphRequest` -> `Frostline.graph` -> `GraphOutput`
+* `AncestorsRequest.paths` -> `Engine.process` -> `discoverAncestors` -> `AncestorsOutput`
+* `GraphRequest` -> `Engine.graph` -> `graphBoundary` -> `ProjectIndex.scan` -> `GraphOutput`
+* `Engine.process` -> `readUtf8Strict` -> `readLeadingArea` -> `parse` -> `Selector`
+* `discoverAncestors` -> `resolveLiteralParent` + `expandAncestors` -> `AncestryGraph.orderedAncestors`
+* `compileSelector` -> `selectorMatches` : `CompiledSelector.literal == relative` -> `upwardLevels`
+* `AncestorsOutput` -> `renderContext` -> `DeliveryStore.deliver` -> `DeliveryResult`
 * `Frostline.resetContext` + `Frostline.resetSession` -> `DeliveryStore`
+* `defaultCacheDirectory` -> `CoreState` -> `withStateLock` -> `loadState` + `persistState`
 * `.frostline/graph/*.xml` -> `validateKnowledge` -> `KnowledgeValidation`
 ]]>
   </Codemap>

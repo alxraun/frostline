@@ -30,8 +30,13 @@
 
   <Codemap>
 <![CDATA[
-* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `default` | `strict`
-* `createUxMode` -> `outputNotices` -> `systemMessage` | `additionalContexts`
+* `resolveDiagnosticsMode` -> `process.env.FLI_DIAGNOSTICS` -> `DiagnosticsMode` == `default` | `strict` -> `DiagnosticsModeSelection`
+* `invalidConfigNoticeText` -> `createNotice(text, text)` -> `UserMessage`
+* `createUxMode` -> `outputNotices` -> `UserMessage[]` -> `systemMessage` | `additionalContexts`
+* `outputNotices` -> `isOperationalDiagnostic` == `false` => hidden in `default`
+* `deliveryDocumentNames` + `deliveryMessage` -> `boundSummary`
+* `errorNotice(error, "read" | "session")` -> `UserMessage`
+* `warningsToNotices` -> `renderWarnings` -> `UserMessage`
 ]]>
   </Codemap>
 </SS-ADAPTER-UX>

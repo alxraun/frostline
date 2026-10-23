@@ -39,12 +39,13 @@
 
   <Codemap>
 <![CDATA[
-* `Selector` -> `compileSelector` -> `CompiledSelector`
+* `Selector` -> `compileSelector` -> `CompiledSelector` : `literal` + `levels`
 * `selectorMatches` : `CompiledSelector.literal == relative`
 * `upwardLevels` -> `path.dirname` -> `filesystemRoot`
-* `CompiledSelector.literal` -> `validateRegularFile` -> `ResolutionOutcome`
-* `flRoot` + `gitRoot` + `homeChildRoot` -> `graphBoundary`
+* `CompiledSelector.literal` -> `canonicalActualRead` -> `validateRegularFile` -> `ResolutionOutcome`
+* `flRoot` + `gitRoot` + `homeChildRoot` -> `applicableBoundary` -> `graphBoundary`
 * `GraphRequest.root` -> `graphBoundary`
+* `projectRoot` + `graphProjectRoot` -> `relativeIdentity` -> `projectQualifiedIdentity` -> `projectDiscriminator`
 ]]>
   </Codemap>
 </M-RESOLUTION>

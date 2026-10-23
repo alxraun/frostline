@@ -17,6 +17,9 @@ import { assertEquals } from "../core/assert.ts";
   Deno.test("repository root expresses the target ownership boundaries", () => {
     const allowed = new Set([
       ".gitignore",
+      "LICENSE",
+      "SECURITY.md",
+      "licenses",
       "README.md",
       "AGENTS.md",
       ".agents",

@@ -31,12 +31,15 @@
 
   <Codemap>
 <![CDATA[
-* `main` -> `dispatch` -> `HookOutput`
-* `post_tool_use` -> `read_classifier::classify_reads` + `resolve_read` -> `run_core`
-* `post_tool_use` -> `resolve_diagnostics_mode` + `delivery_message` + `diagnostics_message` -> `systemMessage`
-* `session_start` -> `resolve_diagnostics_mode` + `reset_session`
-* `post_compact` -> `reset_context`
-* `run_core` -> `core_binary` + `core_timeout` -> `parse_core_output`
+* `main` -> `run` -> `HookOutput`
+* `post_tool_use` -> `codex_shell_command.parse_shell_script` -> `classify_reads` + `resolve_read` -> `is_inside_own_installation` == `true` => skip
+* `post_tool_use` -> `run_core` -> `core_binary` + `core_timeout` -> `parse_core_output` -> `delivery_message` + `delivery_names` + `structured_document_names`
+* `post_tool_use` -> `resolve_diagnostics_mode` -> `DiagnosticsMode` == `default` | `strict` -> `diagnostics_message` + `diagnostic_messages` + `format_warnings`
+* `post_tool_use` -> `HookSpecificOutput.additional_context` + `HookOutput.system_message`
+* `session_start` -> `resolve_diagnostics_mode` + `reset_session` -> `MAIN_CONTEXT`
+* `post_compact` -> `reset_context` -> `reset_session`
+* `run_core` -> `terminate_process` on timeout
+* `context_id` -> `MAIN_CONTEXT` | `HookInput.agent_id`
 ]]>
   </Codemap>
 </M-CODEX-HOOK>

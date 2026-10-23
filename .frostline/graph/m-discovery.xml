@@ -40,11 +40,13 @@
 
   <Codemap>
 <![CDATA[
-* `discoverAncestors` -> `readLeadingArea` + `parse` + `compileSelector` -> `AncestryGraph.addEdge`
-* `ProjectIndex.scan` -> `visitDirectory` + `ProjectCache.fingerprint`
+* `discoverAncestors` -> `ProjectIndex` -> `readLeadingArea` + `parse` + `compileSelector` -> `AncestryGraph.addEdge`
+* `ProjectIndex.scan` -> `visitDirectory` + `fingerprintOf` -> `FileFingerprint`
+* `visitDirectory` -> `generatedDirectories` + `isDerivedCachePath` + `isExcludedTarget`
 * `ProjectIndex.participationGraph` -> `seeds` + `expandAncestors`
-* `externalParent` -> `inspectFile` -> `resolveLiteralParent` -> `discoverAncestors`
-* `CoreState` -> `ProjectCache` via `withStateLock`
+* `externalParent` -> `inspectFile` -> `resolveLiteralParent` -> `upwardLevels` -> `discoverAncestors`
+* `CoreState` -> `ProjectCache` via `withStateLock` -> `loadState` + `persistState`
+* `exists` + `errorText` -> `ProjectIndex`
 ]]>
   </Codemap>
 </M-DISCOVERY>
